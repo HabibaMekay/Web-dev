@@ -18,7 +18,9 @@ module.exports = {
   getAllBooks: async () => await Book.find(),
   getBookById: async (id) => await Book.findById(id),
   createBook: async (title, author) => {
-    const newBook = new Book({ title, author });
+    const book = Book.find().sort({ "id": -1 });
+    const newID= book.id +1
+    const newBook = new Book({ newID , title, author });
     await newBook.save();
     return newBook;
   },
@@ -30,8 +32,7 @@ module.exports = {
   },
 
   deleteBook: async (id) => {
-    const book = getBookById(id);
-    await newBook.deleteOne({id:id});
+    await Book.deleteOne({id:id});
     return;
   }
 
