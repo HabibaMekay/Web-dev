@@ -1,15 +1,21 @@
 const mongoose = require('mongoose');
 
-const connection = mongoose.createConnection("mongodb://localhost:27017/booksdb", {
-  useUnifiedTopology: true,});
+// const connection = mongoose.createConnection("mongodb://localhost:27017/booksdb")
+// console.log("Test")
 
-connectToDatabase();
+mongoose.connect('mongodb://localhost:27017/booksdb')
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((error) => {
+    console.error('Error connecting to MongoDB:', error);
+  });
 
 const bookSchema = new mongoose.Schema({
-  id: int,
+  id: Number,
   title: String,
   author: String,
-});
+})//,{ _id: false }); //ana aslan 3mla id field, inshallah i dont need el _id
 
 const Book = mongoose.model('Book', bookSchema);
 

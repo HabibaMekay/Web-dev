@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 
 app.get('/books/:id', (req, res) => {
   const bId = parseInt(req.params.id);
-  const book = books.getBookById(bId);
+  const book = books.getBookById(`_${bId}`);
 
   if (!book) {
     return res.status(404).json({ message: 'Book not found' });
