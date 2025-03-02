@@ -12,12 +12,12 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-app.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
   const books = await getAllBooks();
   res.json(books);
 });
 
-app.get('/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   const bId = parseInt(req.params.id);
   const book = await getBookById(bId); 
 
@@ -28,13 +28,13 @@ app.get('/:id', async (req, res) => {
   res.json(book);
 });
 
-app.post('/', async (req, res) => {
+router.post('/', async (req, res) => {
   const { title, author } = req.body;
   const book = await createBook(title, author);
   res.json(book);
 });
 
-app.put('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   const bId = parseInt(req.params.id);
   const { title, author } = req.body;
 
@@ -46,12 +46,10 @@ app.put('/:id', async (req, res) => {
   res.json(book);
 });
 
-app.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const bId = parseInt(req.params.id);
   await deleteBook(bId);
   res.status(204).send();
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+module.exports = router;
