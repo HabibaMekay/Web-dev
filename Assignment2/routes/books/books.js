@@ -28,13 +28,13 @@ router.get('/:id', async (req, res) => {
   res.json(book);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', authMiddleware, async (req, res) => {
   const { title, author } = req.body;
   const book = await createBook(title, author);
   res.json(book);
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authMiddleware, async (req, res) => {
   const bId = parseInt(req.params.id);
   const { title, author } = req.body;
 
@@ -46,7 +46,7 @@ router.put('/:id', async (req, res) => {
   res.json(book);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, async (req, res) => {
   const bId = parseInt(req.params.id);
   await deleteBook(bId);
   res.status(204).send();
