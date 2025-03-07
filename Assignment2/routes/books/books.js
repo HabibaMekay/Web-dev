@@ -48,7 +48,10 @@ router.put('/:id', authMiddleware, async (req, res) => {
 
 router.delete('/:id', authMiddleware, async (req, res) => {
   const bId = parseInt(req.params.id);
-  await deleteBook(bId);
+  const result = await deleteBook(bId);
+  if (!result) {
+    return res.status(404).json({ message: 'Book not found' });
+  }
   res.status(204).send();
 });
 
