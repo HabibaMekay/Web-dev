@@ -20,7 +20,10 @@ module.exports = {
     getAllTransactions : async () => await Transaction.find(),
     getTransactionById : async (id) => await Transaction.findOne({ id }),
 
-    borrowTransaction : async (bookId, userId) => {
+    borrowTransaction : async (bookId, userId) => { //kda we can borrow even if no ids entered, fix it later
+        if(!bookId || !userId) {
+            throw new Error('Enter both user ID and book ID');
+        }
 
         const existingTransaction = await Transaction.findOne({ bookId, isReturned: false });
         if (existingTransaction) {
