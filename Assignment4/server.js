@@ -6,8 +6,10 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 const taskRoutes = require('./task/taskRouter');
+const userRoutes = require('./user/userRouter');
 
 app.use('/tasks', taskRoutes);
+app.use('/users', userRoutes);
 
 async function main() {
   try {

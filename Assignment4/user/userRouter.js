@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
     res.json(users);
 });
 
-router.post('/:id', async (req, res) => {
+router.post('/', async (req, res) => {
     const user = await User.create(req.body);
     res.status(201).json(user);
 });
