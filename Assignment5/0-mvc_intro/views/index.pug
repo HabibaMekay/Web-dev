@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    title MVC Example
+  body
+    h1 Item List
+    ul
+      each item in items
+          li= item.name
+          form(action="/remove" method="POST")
+            input(type="hidden" name="id" value=item._id) 
+            button(type="submit") Delete
+
+    form(action="/add" method="POST")
+      input(type="text" name="name" placeholder="Enter item" required)
+      button(type="submit") Add Item
