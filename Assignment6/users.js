@@ -1,15 +1,19 @@
 const jwt = require('jsonwebtoken');
-
+const bcrypt = require('bcrypt');
 const users = [];
 
 async function CreateUser({ username, email, password, role = 'user' }) {
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = {
         id: users.length + 1,
         username,
         email,
-        password,
+        password: hashedPassword,
         role
     }
+
+    const validRoles = ['user', 'moderator', 'admin'];
+    if (!validRoles.includes(role)) throw new Error('Invalid role');
 
     if(ValidateEmail(email) && ValidatePassword(password)){
         users.push(user);
@@ -30,9 +34,10 @@ async function GetUserById(id) {
 
 async function UpdateUser(id, { email, password }) {
     const user = users.find(user => user.id === id);
+
     if(user){
         user.email = email;
-        user.password = password;
+        user.password =  await bcrypt.hash(password, 10);
         return user;
     }
     else{
@@ -41,7 +46,11 @@ async function UpdateUser(id, { email, password }) {
 }
 
 async function UpdateUserByRole(id,  {role} ) {   
+    const validRoles = ['user', 'moderator', 'admin'];
+
+    if (!validRoles.includes(role)) throw new Error('Invalid role');
     const user = users.find(user => user.id === id);
+
     if(user){
         user.role = role;
         return user;

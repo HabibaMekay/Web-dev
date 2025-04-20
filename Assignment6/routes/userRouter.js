@@ -4,6 +4,7 @@ const { CreateUser, LoginUser, GetUserById, UpdateUser, UpdateUserByRole} = requ
 const { authentication } = require('../middleware/authentication');
 const { authorization } = require('../middleware/authorization');
 const { ValidateEmail, ValidatePassword } = require('../users');
+const rateLimit = require('express-rate-limit');
 
 
 // - GET /api/public → Accessible by everyone
@@ -15,7 +16,14 @@ const { ValidateEmail, ValidatePassword } = require('../users');
 // - PUT /api/users/:id/role → Admin-only: Update a user's role
 
 
-router.post('/register', async (req, res) => {
+const myRateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, 
+    max: 3, 
+    message: { error: 'Too many attempts, please try again later' }
+})
+
+
+router.post('/register', myRateLimiter, async (req, res) => {
     const { username, email, password, role } = req.body;
     try {
         const user = await CreateUser({ username, email, password, role });
@@ -25,7 +33,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', myRateLimiter, async (req, res) => {
     const { username, password } = req.body;
     try {
         const user = await LoginUser( username, password );
@@ -45,7 +53,7 @@ router.get('/profile', authentication, async (req, res) => {
 });
 
 
-router.put('/profile', authentication,async (req, res) => {
+router.put('/profile', authentication, async (req, res) => {
     const {id, email, password } = req.body;
 
     if(ValidateEmail(email) && ValidatePassword(password)){
