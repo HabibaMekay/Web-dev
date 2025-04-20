@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const { CreateUser, LoginUser } = require('../users');
+
 
 // router.get('api/profile`', itemController.getItems);
 // router.put('api/profile', itemController.addItem);
@@ -27,9 +29,9 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     try {
-        const user = await LoginUser({ email, password });
+        const user = await LoginUser( username, password );
         res.status(201).json(user);
     } catch (error) {
         res.status(400).json({ error: error.message });

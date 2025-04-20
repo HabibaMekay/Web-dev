@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const users = [];
 
 async function CreateUser({ username, email, password, role = 'user' }) {
@@ -14,7 +16,7 @@ async function CreateUser({ username, email, password, role = 'user' }) {
         return user;
     }
     else{
-        throw new Error('Invalid email or password');
+        throw new Error('Recheck your email or password');
     }
 }
 
@@ -41,7 +43,8 @@ function ValidatePassword(password) {
     return passwordRegex.test(password);
 }
 
-function LoginUser(username, password){
+async function LoginUser(username, password){
+    console.log('Login attempt:', { username, password });
     const user = users.find(user => user.username === username && user.password === password);
     if(user){
 
@@ -57,10 +60,9 @@ function LoginUser(username, password){
             { expiresIn: '7d' }
           );
         
-          user.refreshToken = refreshToken;
         
-          res.json({ accessToken, refreshToken });
-          
+         return { "accessToken" : accessToken, "refreshToken" : refreshToken };
+
     }
     else{
         throw new Error('Invalid username or password');
