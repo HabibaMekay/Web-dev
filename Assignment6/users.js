@@ -28,8 +28,27 @@ async function GetUserById(id) {
     return users.find(user => user.id === id);
 }
 
-async function UpdateUser(id, { username, email, password, role }) {
+async function UpdateUser(id, { email, password }) {
     const user = users.find(user => user.id === id);
+    if(user){
+        user.email = email;
+        user.password = password;
+        return user;
+    }
+    else{
+        throw new Error('User not found');
+    }
+}
+
+async function UpdateUserByRole(id,  {role} ) {   
+    const user = users.find(user => user.id === id);
+    if(user){
+        user.role = role;
+        return user;
+    }
+    else{
+        throw new Error('User not found');
+    }
 }
 
 
@@ -70,5 +89,5 @@ async function LoginUser(username, password){
 
 }
 
-module.exports = { CreateUser, GetAllUsers, GetUserById, UpdateUser, LoginUser };
+module.exports = { CreateUser, GetAllUsers, GetUserById, UpdateUser, LoginUser, ValidateEmail, ValidatePassword, UpdateUserByRole};  
 
