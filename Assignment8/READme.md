@@ -1,6 +1,8 @@
 ## Setup:
 
     - npm init
+    - npm install nock
+    - npm install jest
 
 ## Explanation and output:
 
@@ -40,3 +42,22 @@ Launch Date: 2025-05-03T18:13:00Z
 Mission: Falcon 9 Block 5 | Starlink Group 6-84
 Vehicle: Falcon 9
 Launch Date: 2025-05-04T08:48:00Z
+
+### Tests
+
+To test run npm test, here is the output:
+
+- npm test
+
+> assignment8@1.0.0 test
+> jest
+
+PASS tests/Launch_test.test.js
+PASS tests/ISS_test.test.js
+PASS tests/NASA_service.test.js
+
+Test Suites: 3 passed, 3 total
+Tests: 3 passed, 3 total
+Snapshots: 0 total
+Time: 1.011 s
+Ran all test suites.

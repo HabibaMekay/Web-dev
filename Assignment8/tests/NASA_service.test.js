@@ -1,5 +1,5 @@
 const nock = require('nock');
-const { fetchNASA } = require("..services/NASA_service")
+const { fetchNASA } = require("../services/NASA_service")
 
 describe('NASA Service', () => {
   beforeEach(() => {
