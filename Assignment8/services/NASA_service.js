@@ -6,7 +6,7 @@ async function fetchNASA() {
     const response = await axios.get("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY");
     return response.data;
   } catch (error) {
-    throw new Error('Failed to fetch: ' + error.message);
+    throw new Error('Failed to fetch NASA: ' + error.message);
   }
 }
 
